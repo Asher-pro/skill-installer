@@ -1,16 +1,17 @@
-# skill-installer — מתקין סקילים ל-Claude Code
+# skill-installer — מתקין סקילים ופלאגינים ל-Claude Code
 
-סקיל חכם שמתקין סקילים חדשים מכל מקור — GitHub, Gist, Playbooks, קובץ מקומי, ZIP, או כל URL אחר.
+סקיל חכם שמתקין סקילים ופלאגינים חדשים מכל מקור — GitHub, Gist, Playbooks, מרקטפלייס, קובץ מקומי, ZIP, או כל URL אחר.
 
 מיועד למשתמשים לא-טכניים. מלווה אותך צעד אחרי צעד בעברית.
 
 ## מה הסקיל עושה?
 
 1. **מזהה את המקור** — GitHub repo, Gist, Playbooks.com, קובץ מקומי, ZIP, או כל URL
-2. **מוריד את הקבצים** — GitHub API, git clone, דפדפן, או העתקה מקומית
-3. **סורק אבטחה** — מחפש דפוסים מסוכנים ומציג הערכת סיכונים (ירוק/צהוב/אדום)
-4. **מתקין** — מעתיק ל-`~/.claude/skills/` ומוודא שהכל תקין
-5. **מגדיר API keys** — מזהה מפתחות נדרשים ומדריך בהגדרה
+2. **מזהה את הסוג** — סקיל בודד, ריפו עם כמה סקילים, פלאגין, או מרקטפלייס
+3. **מוריד את הקבצים** — GitHub API, git clone, דפדפן, או העתקה מקומית
+4. **סורק אבטחה** — מחפש דפוסים מסוכנים ומציג הערכת סיכונים (ירוק/צהוב/אדום)
+5. **מתקין** — סקילים ל-`~/.claude/skills/`, פלאגינים דרך `/plugin install`
+6. **מגדיר API keys** — מזהה מפתחות נדרשים ומדריך בהגדרה
 
 ---
 
@@ -26,6 +27,8 @@
 2. לך ל-**Customize** → **Skills** → לחץ על **+** → בחר **Upload a skill**
 3. בחר את קובץ ה-ZIP שהורד
 4. זהו! הסקיל מותקן
+
+![איפה מעלים סקיל](images/upload-skill.png)
 
 **לחלופין**, מהטרמינל:
 ```bash
@@ -61,6 +64,8 @@ cp -R skill-installer/skill-installer ~/.claude/skills/
 | קובץ מקומי | `~/Downloads/SKILL.md` |
 | תיקייה מקומית | `~/Downloads/my-skill/` |
 | קובץ ZIP | `~/Downloads/skill.zip` |
+| פלאגין Claude Code | `github.com/org/plugin-repo` (מכיל `.claude-plugin/`) |
+| מרקטפלייס | `github.com/org/marketplace` (אוסף פלאגינים) |
 | פקודה | `npx some-skill-installer` |
 | URL לא מוכר | כל URL — הסקיל ינסה למצוא SKILL.md דרך דפדפן |
 

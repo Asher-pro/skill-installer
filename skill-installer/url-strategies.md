@@ -174,7 +174,113 @@ Verify the downloaded file starts with `---` (YAML frontmatter).
 9. If still not found → report to user that no skill content was detected
 ```
 
+## Post-Download: Plugin vs Skill Detection
+
+**IMPORTANT:** After downloading files, BEFORE looking for SKILL.md files, check if this is a **Claude Code plugin** (not just skills).
+
+### How to Detect a Plugin
+
+```bash
+# Check for plugin manifest
+ls /tmp/skill-install-TIMESTAMP/.claude-plugin/plugin.json 2>/dev/null
+# Also check one level deep (if repo was cloned into a subdirectory)
+find /tmp/skill-install-TIMESTAMP/ -maxdepth 2 -path "*/.claude-plugin/plugin.json" 2>/dev/null
+```
+
+**If `.claude-plugin/plugin.json` exists → this is a PLUGIN, not a standalone skill.**
+
+### Plugin Installation Flow
+
+A plugin is a complete package with skills + commands + metadata. It must be installed as a plugin, not as individual skills.
+
+**Step 1: Identify plugin type**
+
+Check if `.claude-plugin/marketplace.json` also exists:
+- **If marketplace.json exists** → This is a **marketplace** (collection of plugins). Install the marketplace first, then install plugins from it.
+- **If only plugin.json exists** → This is a **single plugin**. Install it directly.
+
+**Step 2a: Marketplace installation**
+
+```
+הזיהוי: זה מרקטפלייס (אוסף פלאגינים) ולא סקיל בודד.
+כדי להתקין, צריך להריץ את הפקודה הזו ב-Claude Code:
+
+/plugin marketplace add {owner}/{repo}
+
+אחרי שהמרקטפלייס נוסף, אפשר להתקין ממנו פלאגינים:
+/plugin install {plugin-name}@{marketplace-name}
+```
+
+Read `marketplace.json` to list available plugins:
+```
+המרקטפלייס מכיל את הפלאגינים הבאים:
+1. plugin-name-1 - description
+2. plugin-name-2 - description
+
+איזה פלאגינים להתקין?
+```
+
+For each selected plugin, run:
+```bash
+# Claude Code CLI command (run in the user's terminal)
+/plugin install {plugin-name}@{marketplace-name}
+```
+
+**Step 2b: Single plugin installation**
+
+Read `plugin.json` to get the plugin name and source repo URL.
+
+```
+הזיהוי: זה פלאגין של Claude Code (ולא סקיל בודד).
+פלאגין יכול לכלול כמה סקילים, פקודות, ותוספים.
+
+שם: {name}
+תיאור: {description}
+גרסה: {version}
+
+כדי להתקין, צריך להריץ את הפקודה הזו ב-Claude Code:
+
+/install-plugin {github-url}
+
+או אם הפלאגין שייך למרקטפלייס:
+/plugin install {name}@{marketplace}
+```
+
+**Step 3: Verify installation**
+
+After running the install command, check:
+```bash
+cat ~/.claude/plugins/installed_plugins.json
+```
+
+Look for the plugin name in the installed list.
+
+**Step 4: Enable the plugin**
+
+Check if the plugin is enabled in settings:
+```bash
+cat ~/.claude/settings.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(json.dumps(d.get('enabledPlugins',{}), indent=2))"
+```
+
+If not enabled, explain to user:
+```
+הפלאגין הותקן! כדי להפעיל אותו, הריצו:
+/plugin enable {name}
+```
+
+### Key Differences: Plugin vs Skill
+
+| | סקיל | פלאגין |
+|---|---|---|
+| **מיקום** | `~/.claude/skills/` | `~/.claude/plugins/cache/` |
+| **התקנה** | העתקת קבצים | `/plugin install` |
+| **עדכונים** | ידני | אוטומטי מ-git |
+| **מבנה** | SKILL.md + קבצי עזר | .claude-plugin/ + skills/ + commands/ |
+| **זיהוי** | יש SKILL.md | יש .claude-plugin/plugin.json |
+
 ## Multi-Skill Repository Detection
+
+**Only reach this section if the source is NOT a plugin (no `.claude-plugin/plugin.json`).**
 
 After downloading, scan for multiple skills:
 

@@ -23,7 +23,7 @@ cp -R skill-installer ~/.claude/skills/
 ### אפשרות 2: Clone מ-GitHub
 
 ```bash
-git clone https://github.com/aviz85/skill-installer.git
+git clone https://github.com/Asher-pro/skill-installer.git
 cp -R skill-installer/skill-installer ~/.claude/skills/
 ```
 

@@ -12,32 +12,38 @@
 4. **מתקין** — מעתיק ל-`~/.claude/skills/` ומוודא שהכל תקין
 5. **מגדיר API keys** — מזהה מפתחות נדרשים ומדריך בהגדרה
 
-## התקנה מהירה
+---
 
-### אפשרות 1: העתקה ישירה
+## התקנה
 
+### הורדת ZIP (מומלץ - הכי קל!)
+
+> **[לחץ כאן להורדת skill-installer.zip](https://github.com/Asher-pro/skill-installer/raw/main/skill-installer.zip)**
+
+אחרי ההורדה:
+
+1. פתח את Claude Code
+2. לך ל-**Customize** → **Skills** → לחץ על **+** → בחר **Upload a skill**
+3. בחר את קובץ ה-ZIP שהורד
+4. זהו! הסקיל מותקן
+
+**לחלופין**, מהטרמינל:
 ```bash
-cp -R skill-installer ~/.claude/skills/
+unzip ~/Downloads/skill-installer.zip -d ~/.claude/skills/
 ```
 
-### אפשרות 2: Clone מ-GitHub
+### Clone מ-GitHub
 
 ```bash
 git clone https://github.com/Asher-pro/skill-installer.git
 cp -R skill-installer/skill-installer ~/.claude/skills/
 ```
 
-### אפשרות 3: הורדת ZIP
-
-הורד את `skill-installer.zip` מעמוד ה-Releases, ואז:
-
-```bash
-unzip skill-installer.zip -d ~/.claude/skills/
-```
+---
 
 ## שימוש
 
-פשוט אמור לקלוד:
+אחרי ההתקנה, פשוט אמור לקלוד:
 
 - "תתקין את הסקיל הזה: https://github.com/..."
 - "תתקין סקיל מהקובץ ~/Downloads/SKILL.md"
